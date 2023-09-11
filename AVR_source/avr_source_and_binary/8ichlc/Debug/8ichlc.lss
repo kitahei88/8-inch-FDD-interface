@@ -1,0 +1,371 @@
+
+8ichlc.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001d6  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  000001d6  0000026a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000002  00800062  00800062  0000026c  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000026c  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000029c  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000040  00000000  00000000  000002d8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000052f  00000000  00000000  00000318  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000444  00000000  00000000  00000847  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000037e  00000000  00000000  00000c8b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000f4  00000000  00000000  0000100c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000002c4  00000000  00000000  00001100  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000001e4  00000000  00000000  000013c4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000030  00000000  00000000  000015a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	36 c0       	rjmp	.+108    	; 0x70 <__vector_1>
+   4:	6c c0       	rjmp	.+216    	; 0xde <__vector_2>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	e6 ed       	ldi	r30, 0xD6	; 214
+  24:	f1 e0       	ldi	r31, 0x01	; 1
+  26:	02 c0       	rjmp	.+4      	; 0x2c <__do_copy_data+0x10>
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
+  2c:	a2 36       	cpi	r26, 0x62	; 98
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <__do_copy_data+0xc>
+
+00000032 <__do_clear_bss>:
+  32:	20 e0       	ldi	r18, 0x00	; 0
+  34:	a2 e6       	ldi	r26, 0x62	; 98
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	a4 36       	cpi	r26, 0x64	; 100
+  3e:	b2 07       	cpc	r27, r18
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	7e d0       	rcall	.+252    	; 0x140 <main>
+  44:	c6 c0       	rjmp	.+396    	; 0x1d2 <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <eeprom_write>:
+
+/*	global function	*/
+
+void eeprom_write (unsigned char add, unsigned char dat)
+{
+	while(EECR & (1<<EEPE));
+  48:	e1 99       	sbic	0x1c, 1	; 28
+  4a:	fe cf       	rjmp	.-4      	; 0x48 <eeprom_write>
+	EECR = (0<<EEPM1)|(0<<EEPM0);
+  4c:	1c ba       	out	0x1c, r1	; 28
+	EEARL = add;
+  4e:	8e bb       	out	0x1e, r24	; 30
+	EEDR = dat;
+  50:	6d bb       	out	0x1d, r22	; 29
+	EECR |= (1<<EEMPE);
+  52:	8c b3       	in	r24, 0x1c	; 28
+  54:	84 60       	ori	r24, 0x04	; 4
+  56:	8c bb       	out	0x1c, r24	; 28
+	EECR |= (1<<EEPE);
+  58:	8c b3       	in	r24, 0x1c	; 28
+  5a:	82 60       	ori	r24, 0x02	; 2
+  5c:	8c bb       	out	0x1c, r24	; 28
+  5e:	08 95       	ret
+
+00000060 <eeprom_read>:
+}
+
+unsigned char eeprom_read(unsigned char add)
+{
+	while(EECR & (1<<EEPE));
+  60:	e1 99       	sbic	0x1c, 1	; 28
+  62:	fe cf       	rjmp	.-4      	; 0x60 <eeprom_read>
+	EEARL = add;
+  64:	8e bb       	out	0x1e, r24	; 30
+	EECR |= (1<<EERE);
+  66:	8c b3       	in	r24, 0x1c	; 28
+  68:	81 60       	ori	r24, 0x01	; 1
+  6a:	8c bb       	out	0x1c, r24	; 28
+	return EEDR;	
+  6c:	8d b3       	in	r24, 0x1d	; 29
+}
+  6e:	08 95       	ret
+
+00000070 <__vector_1>:
+	trk = eeprom_read(EEPADD);
+}
+
+
+ISR(INT0_vect)		// step signal is assert
+{
+  70:	1f 92       	push	r1
+  72:	0f 92       	push	r0
+  74:	0f b6       	in	r0, 0x3f	; 63
+  76:	0f 92       	push	r0
+  78:	11 24       	eor	r1, r1
+  7a:	2f 93       	push	r18
+  7c:	3f 93       	push	r19
+  7e:	4f 93       	push	r20
+  80:	5f 93       	push	r21
+  82:	6f 93       	push	r22
+  84:	7f 93       	push	r23
+  86:	8f 93       	push	r24
+  88:	9f 93       	push	r25
+  8a:	af 93       	push	r26
+  8c:	bf 93       	push	r27
+  8e:	ef 93       	push	r30
+  90:	ff 93       	push	r31
+	if ( bit_is_set(PINB,DIRECTION) ) // go to low track
+  92:	b4 9b       	sbis	0x16, 4	; 22
+  94:	08 c0       	rjmp	.+16     	; 0xa6 <__stack+0x7>
+		{	if (trk>0)  trk--;
+  96:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <trk>
+  9a:	18 16       	cp	r1, r24
+  9c:	5c f4       	brge	.+22     	; 0xb4 <__stack+0x15>
+  9e:	81 50       	subi	r24, 0x01	; 1
+  a0:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <trk>
+  a4:	07 c0       	rjmp	.+14     	; 0xb4 <__stack+0x15>
+		} else { // got high track
+			if (trk<MAX_TRACK) trk++;
+  a6:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <trk>
+  aa:	8c 34       	cpi	r24, 0x4C	; 76
+  ac:	1c f4       	brge	.+6      	; 0xb4 <__stack+0x15>
+  ae:	8f 5f       	subi	r24, 0xFF	; 255
+  b0:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <trk>
+		}
+	eeprom_write(EEPADD,trk);	
+  b4:	60 91 63 00 	lds	r22, 0x0063	; 0x800063 <trk>
+  b8:	80 e0       	ldi	r24, 0x00	; 0
+  ba:	c6 df       	rcall	.-116    	; 0x48 <eeprom_write>
+}
+  bc:	ff 91       	pop	r31
+  be:	ef 91       	pop	r30
+  c0:	bf 91       	pop	r27
+  c2:	af 91       	pop	r26
+  c4:	9f 91       	pop	r25
+  c6:	8f 91       	pop	r24
+  c8:	7f 91       	pop	r23
+  ca:	6f 91       	pop	r22
+  cc:	5f 91       	pop	r21
+  ce:	4f 91       	pop	r20
+  d0:	3f 91       	pop	r19
+  d2:	2f 91       	pop	r18
+  d4:	0f 90       	pop	r0
+  d6:	0f be       	out	0x3f, r0	; 63
+  d8:	0f 90       	pop	r0
+  da:	1f 90       	pop	r1
+  dc:	18 95       	reti
+
+000000de <__vector_2>:
+
+ISR(PCINT0_vect)	// Track00 or write gate is changed 
+{ 
+  de:	1f 92       	push	r1
+  e0:	0f 92       	push	r0
+  e2:	0f b6       	in	r0, 0x3f	; 63
+  e4:	0f 92       	push	r0
+  e6:	11 24       	eor	r1, r1
+  e8:	2f 93       	push	r18
+  ea:	3f 93       	push	r19
+  ec:	4f 93       	push	r20
+  ee:	5f 93       	push	r21
+  f0:	6f 93       	push	r22
+  f2:	7f 93       	push	r23
+  f4:	8f 93       	push	r24
+  f6:	9f 93       	push	r25
+  f8:	af 93       	push	r26
+  fa:	bf 93       	push	r27
+  fc:	ef 93       	push	r30
+  fe:	ff 93       	push	r31
+	if ( bit_is_set(PINB,WRITEGATE) )	rw = RD;
+ 100:	b2 9b       	sbis	0x16, 2	; 22
+ 102:	03 c0       	rjmp	.+6      	; 0x10a <__vector_2+0x2c>
+ 104:	81 e0       	ldi	r24, 0x01	; 1
+ 106:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+	if ( bit_is_clear(PINB,WRITEGATE) )	rw = WR;
+ 10a:	b2 9b       	sbis	0x16, 2	; 22
+ 10c:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
+	if ( bit_is_clear(PINB,TRACK0) )  {
+ 110:	b0 99       	sbic	0x16, 0	; 22
+ 112:	05 c0       	rjmp	.+10     	; 0x11e <__vector_2+0x40>
+		trk = 0;
+ 114:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <trk>
+		eeprom_write(EEPADD,trk);
+ 118:	60 e0       	ldi	r22, 0x00	; 0
+ 11a:	80 e0       	ldi	r24, 0x00	; 0
+ 11c:	95 df       	rcall	.-214    	; 0x48 <eeprom_write>
+		}
+}
+ 11e:	ff 91       	pop	r31
+ 120:	ef 91       	pop	r30
+ 122:	bf 91       	pop	r27
+ 124:	af 91       	pop	r26
+ 126:	9f 91       	pop	r25
+ 128:	8f 91       	pop	r24
+ 12a:	7f 91       	pop	r23
+ 12c:	6f 91       	pop	r22
+ 12e:	5f 91       	pop	r21
+ 130:	4f 91       	pop	r20
+ 132:	3f 91       	pop	r19
+ 134:	2f 91       	pop	r18
+ 136:	0f 90       	pop	r0
+ 138:	0f be       	out	0x3f, r0	; 63
+ 13a:	0f 90       	pop	r0
+ 13c:	1f 90       	pop	r1
+ 13e:	18 95       	reti
+
+00000140 <main>:
+/*	global function	end	*/
+	
+static inline
+void init(void)
+{
+	cli();
+ 140:	f8 94       	cli
+	
+	MCUCR	= 0x02;	/*	ISC1:0 = 2'b10, down trigger for INT0 */
+ 142:	82 e0       	ldi	r24, 0x02	; 2
+ 144:	85 bf       	out	0x35, r24	; 53
+	PCMSK	= 0x05;	/*	PCINT0 and PCINT2 is enable	*/
+ 146:	85 e0       	ldi	r24, 0x05	; 5
+ 148:	85 bb       	out	0x15, r24	; 21
+	PRR		= 0x03;	/*	Power Reduction setting (ADC disable, timer disable)	*/
+ 14a:	83 e0       	ldi	r24, 0x03	; 3
+ 14c:	85 bd       	out	0x25, r24	; 37
+	
+	/* set PORTB I/O */
+	DDRB	= 0b00001000;
+ 14e:	88 e0       	ldi	r24, 0x08	; 8
+ 150:	87 bb       	out	0x17, r24	; 23
+	PORTB	= 0b00011111;
+ 152:	8f e1       	ldi	r24, 0x1F	; 31
+ 154:	88 bb       	out	0x18, r24	; 24
+	// PB3 is out, other pins are input , pullup.
+	
+	GIMSK	= 0x60;	/*	INT0 and PCINT are enable	*/
+ 156:	80 e6       	ldi	r24, 0x60	; 96
+ 158:	8b bf       	out	0x3b, r24	; 59
+  	sei();
+ 15a:	78 94       	sei
+	trk = eeprom_read(EEPADD);
+ 15c:	80 e0       	ldi	r24, 0x00	; 0
+ 15e:	80 df       	rcall	.-256    	; 0x60 <eeprom_read>
+ 160:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <trk>
+
+
+int main(void)
+{
+	init();
+	if (bit_is_set(PINB,MODEL)) 	mode = NEC;
+ 164:	b5 9b       	sbis	0x16, 5	; 22
+ 166:	03 c0       	rjmp	.+6      	; 0x16e <main+0x2e>
+ 168:	81 e0       	ldi	r24, 0x01	; 1
+ 16a:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
+	
+	while (1) {
+		switch (mode)	{
+ 16e:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <__data_end>
+ 172:	88 23       	and	r24, r24
+ 174:	71 f0       	breq	.+28     	; 0x192 <main+0x52>
+ 176:	81 30       	cpi	r24, 0x01	; 1
+ 178:	39 f5       	brne	.+78     	; 0x1c8 <main+0x88>
+			case NEC:
+				if (trk<42) { PORTB &= ~(1<<LOWCURRENT);	// NPN tr switch, inverted out
+ 17a:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <trk>
+ 17e:	8a 32       	cpi	r24, 0x2A	; 42
+ 180:	24 f4       	brge	.+8      	; 0x18a <main+0x4a>
+ 182:	88 b3       	in	r24, 0x18	; 24
+ 184:	87 7f       	andi	r24, 0xF7	; 247
+ 186:	88 bb       	out	0x18, r24	; 24
+ 188:	1f c0       	rjmp	.+62     	; 0x1c8 <main+0x88>
+					} else { PORTB |= (1<<LOWCURRENT);		// NPN tr switch, inverted out
+ 18a:	88 b3       	in	r24, 0x18	; 24
+ 18c:	88 60       	ori	r24, 0x08	; 8
+ 18e:	88 bb       	out	0x18, r24	; 24
+ 190:	1b c0       	rjmp	.+54     	; 0x1c8 <main+0x88>
+					}
+				break;
+			case YE:
+				if (rw == WR) {
+ 192:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 196:	81 11       	cpse	r24, r1
+ 198:	0c c0       	rjmp	.+24     	; 0x1b2 <main+0x72>
+					if (trk<44) { PORTB &= ~(1<<LOWCURRENT); 
+ 19a:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <trk>
+ 19e:	8c 32       	cpi	r24, 0x2C	; 44
+ 1a0:	24 f4       	brge	.+8      	; 0x1aa <main+0x6a>
+ 1a2:	88 b3       	in	r24, 0x18	; 24
+ 1a4:	87 7f       	andi	r24, 0xF7	; 247
+ 1a6:	88 bb       	out	0x18, r24	; 24
+ 1a8:	0f c0       	rjmp	.+30     	; 0x1c8 <main+0x88>
+						} else { PORTB |= (1<<LOWCURRENT);
+ 1aa:	88 b3       	in	r24, 0x18	; 24
+ 1ac:	88 60       	ori	r24, 0x08	; 8
+ 1ae:	88 bb       	out	0x18, r24	; 24
+ 1b0:	0b c0       	rjmp	.+22     	; 0x1c8 <main+0x88>
+						}
+				} else {
+					if (trk<60) { PORTB &= ~(1<<LOWCURRENT);
+ 1b2:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <trk>
+ 1b6:	8c 33       	cpi	r24, 0x3C	; 60
+ 1b8:	24 f4       	brge	.+8      	; 0x1c2 <main+0x82>
+ 1ba:	88 b3       	in	r24, 0x18	; 24
+ 1bc:	87 7f       	andi	r24, 0xF7	; 247
+ 1be:	88 bb       	out	0x18, r24	; 24
+ 1c0:	03 c0       	rjmp	.+6      	; 0x1c8 <main+0x88>
+						} else { PORTB |= (1<<LOWCURRENT);
+ 1c2:	88 b3       	in	r24, 0x18	; 24
+ 1c4:	88 60       	ori	r24, 0x08	; 8
+ 1c6:	88 bb       	out	0x18, r24	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1c8:	80 ef       	ldi	r24, 0xF0	; 240
+ 1ca:	90 e0       	ldi	r25, 0x00	; 0
+ 1cc:	01 97       	sbiw	r24, 0x01	; 1
+ 1ce:	f1 f7       	brne	.-4      	; 0x1cc <main+0x8c>
+ 1d0:	ce cf       	rjmp	.-100    	; 0x16e <main+0x2e>
+
+000001d2 <_exit>:
+ 1d2:	f8 94       	cli
+
+000001d4 <__stop_program>:
+ 1d4:	ff cf       	rjmp	.-2      	; 0x1d4 <__stop_program>
