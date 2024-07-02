@@ -8,7 +8,7 @@ For Low current signal, you need to write bianry and set FUSE bits to AVR Attiny
 This project use Attiny13A Reset pin to GPIO.
 It must be written in the following order.
 
-1. Write main firmware(8ichlc.hex) to AVR.
+1. Write main firmware(8ichlc.hex in ./avr_source_and_binary/8ichlc/Release/ ) to AVR.
 2. Wrtie Low FUSE bit to 0x7A.
 3. Write High FUSE bit to 0xFE.(Reset pin is disable)
 
@@ -18,7 +18,7 @@ AVRのソースとバイナリです。
 Attiny13Aを使っています。（秋月などで購入）
 ピンが少なく、リセットピンをI/Oとして使っていますので、書き込み方法に注意してください。
 
-1. ファームウェア(8ichlc.hex) をAVRに書き込む
+1. ファームウェア(./avr_source_and_binary/8ichlc/Release/にある 8ichlc.hex) をAVRに書き込む
 2. Low FUSE を 0x7Aで書き込む
 3. High FUSE を0xFEで書き込む.(リセットが出来なくなり、ISPで書き込めなくなります。)
 
