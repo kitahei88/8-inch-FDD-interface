@@ -15,10 +15,6 @@ I tested NEC FD1165A and Pauline.
 
 NEC製のFD1165Aを利用して読み込み可能であることをテストしています。
 
-Follow Us
-Game Preservatin Society 
-https://www.gamepres.org/
-Twitter: @gamepres
 
 Takuya Fukuda
 Twitter: @kitahei88
