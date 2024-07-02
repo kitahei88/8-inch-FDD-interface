@@ -4,7 +4,8 @@ Scheme is printed as PDF file.
 Parts list is ODS file.
 
 基板はDesignSpark PCB Ver10.0で作成しています。
-現在のバージョンでも読み込んでGerber出力することが可能です。
+gerberのフォルダにGerberとして出力しましています。それらをまとめたものもZIPファイルで置いてあります。
+FusionPCBなどへ発注できると思います。
 
 回路図はPDFファイルとしても参照可能です。
 パーツリストは、ODSファイルに記載してあります。
