@@ -24,12 +24,14 @@ Jumper set as drive 1.
 Turn off the VFO function. (RD jumper is set to the side of 2)
 ジャンパーはドライブ１として設定
 またVFOの機能は切っておきます。（RDのジャンパーは２の側へジャンパーを変更）
+
 <img src="images/12.JPG" width="300" />
 
 ## Connection
 
 Attach the board to the drive.
 ボードをドライブに取り付けます。
+
 <img src="images/10.JPG" width="300" />
 
 Connect with a straight cable.
@@ -39,6 +41,7 @@ Power is supplied from the power supply board to the drive and Pauline.
 
 Dumping disk as usual.
 後は通常通りPaulineで読み込みます。
+
 <img src="images/11.JPG" width="300" />
 
 

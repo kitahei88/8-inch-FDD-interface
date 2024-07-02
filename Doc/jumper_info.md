@@ -9,9 +9,9 @@ Open = NEC FD1165A
 
 Low Currect信号の生成を機種によって変更するためのジャンパーです。
 ショートするとYEデータのYE-180用となります
-（low current はYEでは Write中の場合 　0~43でH 44~76でL。Read中は0~59でH 60~76でL）
+（low current はYEでは Write中の場合 　0〜43トラックでH 44〜76トラックでL。Read中は0〜59トラックでH 60〜76トラックでL）
 オープンするとNEC　FD1165A用となります。
-（NEC FD1165は、 read writeに関係なく0~42でH、43~76でL）
+（NEC FD1165は、 read writeに関係なく0〜42トラックでH、43〜76トラックでL）
 
 ## Jumper 2
 Select 34 pin signal (READY or DiskChange)

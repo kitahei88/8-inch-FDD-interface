@@ -13,6 +13,7 @@ The power supply board uses +24V DC power supply.
 DC plug is an external diameter of 5.5 mm, an internal diameter of 2.1 mm, and a center-plus.
 電源基板には+24Vの直流電源を使用します。
 外形5.5mm、内径2.1mm、センタープラスのDCプラグで供給する形で作成しました。
+
 <img src="../Doc/images/5.JPG" width="300" />
 <img src="../Doc/images/4.JPG" width="300" />
 
@@ -21,6 +22,7 @@ The output from each power supply pin is as shown in the image.
 
 電源出力はXH6ピンが8インチドライブ用　XH2ピンがPaulineへの電源供給としています。
 それぞれの電源ピンからの出力は画像に記載した通りです。
+
 <img src="../Doc/images/6.JPG" width="300" />
 
 One of the +5V from the XH6 pin feeds this interface board.
@@ -39,5 +41,6 @@ NEC　FD1165Aの場合は、EIコネクターの7ピンで、
 3pin +5V
 4pin GND
 です。
+
 <img src="../Doc/images/7.JPG" width="300" />
 <img src="../Doc/images/8.JPG" width="300" />
